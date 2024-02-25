@@ -1,21 +1,18 @@
 <script>
-	import { Alert } from 'flowbite-svelte';
+	import { Heading, P, Button, Badge, Alert } from 'flowbite-svelte';
 
 	export let data;
-	// console.log(data);
 
-	// <!-- TO POTENTIALLY MOVE ALL OF THIS TO SRC/LIB/PAGETEMPLATES AND import data from there -->
+	let signedIn = !data?.Error ? true : false;
 
-	// don't have so many vars just use in string?
-	let userName = `${data.first_name} ${data.last_name}`;
-	let userAvatar = data.user_image;
-	let userInterests = data.interested_in;
-	let userMatches = data.matches;
+	// don't have so many vars?
+	let userName = `${data?.first_name} ${data?.last_name}`;
+	let userAvatar = data?.user_image;
+	let userInterests = data?.interested_in;
+	let userMatches = data?.matches;
 
-	// can be in utilities or index.js as reusable function
-
-	//TODO: error handling
-	let groups = userMatches.reduce(
+	//TODO: error handling, can be more paramaterized for reusability as utility function
+	let groupedOpps = userMatches?.reduce(
 		(/** @type {{ role: string; values: any[]; }[]} */ curr, /** @type {{ role: any; }} */ val) => {
 			let group = curr.find((g) => g.role === `${val.role}`);
 			if (group) {
@@ -29,50 +26,69 @@
 	);
 </script>
 
-<div class="p-8">
-	<p>Hello {userName}!</p>
-</div>
+{#if !signedIn}
+	<Heading tag="h4" class="m-8 text-red-700">{data.Error}</Heading>
+{/if}
 
-<div class="p-8">
+{#if signedIn}
+	<Heading tag="h1" class="m-8">Hello {userName}!</Heading>
+
 	<!-- <ImageComponent> -->
-	<img src={userAvatar} alt="user avatar" />
-</div>
+	<img src={userAvatar} class="m-8" alt="user avatar" />
 
-<div class="p-8">
-	<ul>
-		<!-- <TagsComponent> -->
-		{#each userInterests as interest, index}
-			<li>{interest}</li>
-		{/each}
-	</ul>
-</div>
-
-<div class="p-8">
-	<p>You've matched with {userMatches.length} opportunities!</p>
-</div>
-
-<div class="p-8">
-	<Alert>
-		<span class="font-medium">Info alert!</span>
-		Change a few things up and try submitting again.
-	</Alert>
-</div>
-
-<div class="p-8">
-	{#each groups as group}
-		<br />
-		<h2>{group.role}</h2>
-		<h2>{group.values.length}</h2>
-		<hr />
-		<ul>
-			{#each group.values as item, i}
-				<li>
-					<p>
-						{i + 1} - {item.role}
-						- {item.org_name}
-					</p>
-				</li>
+	{#if !userMatches.length}
+		<div class="p-8">
+			<Alert>
+				<P>You have not added any interests. Add interests to be matched to opportunities.</P>
+				<Button size="xs" color="light" class="mr-4 mt-4">+ INTEREST</Button>
+			</Alert>
+		</div>
+	{:else}
+		<div class="p-8">
+			<Heading tag="h2">Your Interests</Heading>
+			{#each userInterests as interest, index}
+				<Badge color="dark" large class="mr-4">{interest}</Badge>
 			{/each}
-		</ul>
-	{/each}
-</div>
+			<Button size="xs" color="light" class="mr-4">+ INTEREST</Button>
+		</div>
+
+		<div class="p-8">
+			<Heading tag="h3" class="mb-4 font-normal"
+				>You've matched with
+				<span class="font-bold">{userMatches.length}</span> opportunities!</Heading
+			>
+		</div>
+
+		<div class=" m-8">
+			{#each groupedOpps as group}
+				<div class="border-4 p-8">
+					<div class="text-left">
+						<Heading tag="h1" class="mb-4" customSize="text-4xl font-extrabold  md:text-5xl"
+							>{group.role}</Heading
+						>
+					</div>
+					<!-- TODO: handle plural better: match/matches variable -->
+					<Heading tag="h2" class="mb-4" customSize="text-3xl md:text-4xl font-bold"
+						>{group.values.length} Match{#if group.values.length > 1}es{/if}</Heading
+					>
+					<ul>
+						{#each group.values.slice(0, 3) as item, i}
+							<li>
+								<P class="text-lg dark:text-gray-400">
+									<span class="font-bold">{item.org_name}:</span>
+									{item.match_level}% Match
+									<Button class="mb-8 ml-3" color="light" href="/">View Match</Button>
+								</P>
+							</li>
+						{/each}
+					</ul>
+					{#if group.values.length > 1}
+						<Button href="/">
+							All {group.role} Matches
+						</Button>
+					{/if}
+				</div>
+			{/each}
+		</div>
+	{/if}
+{/if}

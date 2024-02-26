@@ -4,7 +4,7 @@
 	export let data;
 	// console.log(data);
 
-	let signedIn = !data?.message ? true : false;
+	let signedIn = !data?.errorMessage ? true : false;
 
 	// don't have so many vars?
 	let userName = `${data?.first_name} ${data?.last_name}`;
@@ -28,7 +28,7 @@
 </script>
 
 {#if !signedIn}
-	<Heading tag="h4" class="m-8 text-red-700">{data.message}</Heading>
+	<Heading tag="h4" class="m-8 text-red-700">{data.errorMessage}</Heading>
 {/if}
 
 {#if signedIn}

@@ -1,7 +1,5 @@
 # Code Challenge for Full Stack Engineer at All Tech Is Human
 
-[Code Challenge Instructions](https://github.com/schmidtfutures/sf-eng-challenge-server)
-
 ## Technology
 - Built with [Sveltekit Framework](https://kit.svelte.dev/)
 - Uses the [Flowbite Component Library](https://flowbite-svelte.com/) and [Tailwind CSS](https://tailwindcss.com/) for simple UI development

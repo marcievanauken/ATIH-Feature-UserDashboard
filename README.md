@@ -13,7 +13,6 @@
 ## How to navigate
 - The app will take you to the "homepage" route by default. Enter a userid in the input field to "sign in" and render the dashboard from the `user/dashboard/` route
 - Once viewing a dashboard, you can update the userid param to view a different users' dashboard
-- If the `?=userid` param is missing from the `user/dashboard` URL, it will be treated as "not authenticated". When bringing the param back to the URL, the user is "authenticated". This is clearly not a normal authentication flow but is the flow I've put together for handling the requirements of this challenge
 
 ## MVP Notes
 - All handling is server-side due to time constraint. To ideally utilize the `src/components` and `src/pageTemplates` directories for client-side rendering and better component structuring

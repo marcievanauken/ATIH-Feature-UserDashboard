@@ -2,8 +2,9 @@
 	import { Heading, P, Button, Badge, Alert } from 'flowbite-svelte';
 
 	export let data;
+	// console.log(data);
 
-	let signedIn = !data?.Error ? true : false;
+	let signedIn = !data?.message ? true : false;
 
 	// don't have so many vars?
 	let userName = `${data?.first_name} ${data?.last_name}`;
@@ -27,13 +28,12 @@
 </script>
 
 {#if !signedIn}
-	<Heading tag="h4" class="m-8 text-red-700">{data.Error}</Heading>
+	<Heading tag="h4" class="m-8 text-red-700">{data.message}</Heading>
 {/if}
 
 {#if signedIn}
 	<Heading tag="h1" class="m-8">Hello {userName}!</Heading>
 
-	<!-- <ImageComponent> -->
 	<img src={userAvatar} class="m-8" alt="user avatar" />
 
 	{#if !userMatches.length}
@@ -67,7 +67,6 @@
 							>{group.role}</Heading
 						>
 					</div>
-					<!-- TODO: handle plural better: match/matches variable -->
 					<Heading tag="h2" class="mb-4" customSize="text-3xl md:text-4xl font-bold"
 						>{group.values.length} Match{#if group.values.length > 1}es{/if}</Heading
 					>

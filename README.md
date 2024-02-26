@@ -6,7 +6,7 @@
 - Built with [Sveltekit Framework](https://kit.svelte.dev/)
 - Uses the [Flowbite Component Library](https://flowbite-svelte.com/) and [Tailwind CSS](https://tailwindcss.com/) for simple UI development
 
-# Feature Details
+## Feature Details
 - This feature is a **User Dashboard** for users who are hoping to match with opportunities
 - The user can view their dashboard for a snapshot summary of their opportunity matches
 
